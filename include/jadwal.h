@@ -36,7 +36,14 @@ DokterPadaShift* CreateNodeDokterDiShift(char nama[MAX_NAME_LENGTH]);
 void InisialisasiJadwal(Jadwal ArrayJadwal[]);
 
 //fungsi ini akan mengiterasi linked-list dokter pada tanggal tertentu.
-//
+//dicek apakah beberapa kondisi terpenuhi: 
+//  Makshift dokter belum nol (artinya dalam seminggu belum di batas shift dokternya)
+//  Kebutuhan dokter pada shift tersebut belum terpenuhi
+//  Preferensi shift dokter sesuai dengan shift yang lagi butuh dokter
+//Jika semua kondisi terpenuh maka dokternya akan di-assign di shift itu
+
+//input: Linked-list dokter (head nya aja, lalu ditransversal) dan address dari element array jadwal (contoh: &ArrayJadwal[0])
+//output: Gak ada, fungsinya cuman memperbarui element array jadwal (makanya yang dipass itu addressnya juga, bukan value aja)
 void CekMaksShiftKebutuhanPreferensiLaluAssign(NodeDokter* head, Jadwal* jadwal);
 
 #endif

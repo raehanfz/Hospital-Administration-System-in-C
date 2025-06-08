@@ -31,14 +31,20 @@ DokterPadaShift* CreateNodeDokterDiShift(char nama[MAX_NAME_LENGTH]){
     return temp;
 }
 
-//fungsi untuk cek apakah maksimal shift dokter dan preferensi shift sesuai
-void CekMaksShiftKebutuhanPreferensiLaluAssign(NodeDokter* head, Jadwal* jadwal){ //jadwal di sini adalah element dari arrayJadwal (passing addressnya biar bisa terubah)
+//fungsi ini akan mengiterasi linked-list dokter pada tanggal tertentu.
+//dicek apakah beberapa kondisi terpenuhi: 
+//  Makshift dokter belum nol (artinya dalam seminggu belum di batas shift dokternya)
+//  Kebutuhan dokter pada shift tersebut belum terpenuhi
+//  Preferensi shift dokter sesuai dengan shift yang lagi butuh dokter
+//Jika semua kondisi terpenuh maka dokternya akan di-assign di shift itu
+void CekMaksShiftKebutuhanPreferensiLaluAssign(NodeDokter* head, Jadwal* jadwal){
     bool shift_in_day_full = false;
     DokterPadaShift* temp;
     DokterPadaShift* head_pagi = NULL, *current_pagi = NULL;
     DokterPadaShift* head_siang = NULL, *current_siang = NULL;
     DokterPadaShift* head_malam = NULL, *current_malam = NULL;
     while (!shift_in_day_full && head != NULL){
+        //cek apakah dokter pada node sekarang mau shift pagi, apakah shift pagi lagi butuh orang, dan apakah dokter di node sekarang udah sampai batas shiftnya
         if (head->shiftPagi == true && jadwal->pagi.kebutuhanTerpenuhi == false && head->maksShiftPerMinggu != 0){
             temp = CreateNodeDokterDiShift(head->nama);
             if (jadwal->pagi.head == NULL){
@@ -55,7 +61,7 @@ void CekMaksShiftKebutuhanPreferensiLaluAssign(NodeDokter* head, Jadwal* jadwal)
                 jadwal->pagi.kebutuhanTerpenuhi = true;
             }
         }
-        
+        //sama kayak yang atas, tapi kalo dokternya bisa siang juga, siang juga, gas!
         if (head->shiftSiang == true && jadwal->siang.kebutuhanTerpenuhi == false && head->maksShiftPerMinggu != 0){
             temp = CreateNodeDokterDiShift(head->nama);
             if (jadwal->siang.head == NULL){
@@ -72,7 +78,7 @@ void CekMaksShiftKebutuhanPreferensiLaluAssign(NodeDokter* head, Jadwal* jadwal)
                 jadwal->siang.kebutuhanTerpenuhi = true;
             }
         }
-
+        //sama kayak yang atas, tapi kalo dokternya bisa malem juga, siang juga, gas!
         if (head->shiftMalam == true && jadwal->malam.kebutuhanTerpenuhi == false && head->maksShiftPerMinggu != 0){
             temp = CreateNodeDokterDiShift(head->nama);
             if (jadwal->malam.head == NULL){
