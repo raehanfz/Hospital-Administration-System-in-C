@@ -5,14 +5,14 @@
 #include "dokter.h" //include semua fungsi di header dokter
 
 //struktur data dokter untuk shift tertentu pada suatu tanggal
-typedef struct DokterPadaTanggal {
+typedef struct DokterPadaShift {
     char nama[MAX_NAME_LENGTH];
-    struct DokterPadaTanggal* next;
-} DokterPadaTanggal;
+    struct DokterPadaShift* next;
+} DokterPadaShift;
 
-//struktur data mengenai sebuah shift
+//struktur data mengenai suatu shift
 typedef struct Shift {
-    DokterPadaTanggal* head;
+    DokterPadaShift* head;
     unsigned short int kebutuhanDokter;
     bool kebutuhanTerpenuhi;
 } Shift;
@@ -26,9 +26,17 @@ typedef struct Jadwal {
 } Jadwal;
 
 //buat node dokter untuk shift tertentu pada suatu tanggal
-DokterPadaTanggal* CreateNodeDokterTanggal(char nama[MAX_NAME_LENGTH]);
+//input: nama dokter dari linked-list dokter
+//output: node dokter pada shift untuk linked-list dokter pada suatu shift
+DokterPadaShift* CreateNodeDokterDiShift(char nama[MAX_NAME_LENGTH]);
 
-// Inisialisasi array jadwal kosong
-void InisialisasiJadwal(Jadwal ArrayJadwal[], unsigned short int jumlahHari);
+//inisialisasi array jadwal kosong
+//input: ArrayJadwal (dideklarasikan di main)
+//output: ArrayJadwal (dideklarasikan di main) (sebenernya void jadi gak return apa-apa)
+void InisialisasiJadwal(Jadwal ArrayJadwal[]);
+
+//fungsi ini akan mengiterasi linked-list dokter pada tanggal tertentu.
+//
+void CekMaksShiftKebutuhanPreferensiLaluAssign(NodeDokter* head, Jadwal* jadwal);
 
 #endif

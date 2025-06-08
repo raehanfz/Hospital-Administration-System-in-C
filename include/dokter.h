@@ -15,10 +15,14 @@ typedef struct NodeDokter {
     struct NodeDokter* next;
 } NodeDokter;
 
-// Membuat Node baru dokter
+//membuat Node baru dokter
+//input: nama dokter, makshift, dan preferensi. Semuanya disimpan pada variabel di program
+//output: Node untuk linked-list dokter yang memuat informasi dari input
 NodeDokter* CreateNodeDokter(char nama[MAX_NAME_LENGTH], unsigned short int maksShift, bool pagi, bool siang, bool malam);
 
-// Membaca file CSV dan membentuk linked list dokter
+//membaca file CSV dan membentuk linked list dokter
+//input: nama file csv
+//output: Linked-list dokter, yang direturn adalah head dari linked-listnya
 NodeDokter* BacaDaftarDokterDariFile(const char* filename);
 
 // Fungsi debug (opsional, buat testing aja)

@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "jadwal.h" 
+#include "dokter.h"
 
 //fungsi inisialisasi 30 hari dalam 1 bulan
 void InisialisasiArrayJadwal(Jadwal arrayJadwal[30]) {
@@ -19,6 +21,79 @@ void InisialisasiArrayJadwal(Jadwal arrayJadwal[30]) {
         arrayJadwal[i].malam.head = NULL;
         arrayJadwal[i].malam.kebutuhanDokter = 3;
         arrayJadwal[i].malam.kebutuhanTerpenuhi = false;
+    }
+}
+//inisialisasi array jadwal kosong
+DokterPadaShift* CreateNodeDokterDiShift(char nama[MAX_NAME_LENGTH]){
+    DokterPadaShift* temp = (DokterPadaShift*)malloc(sizeof(DokterPadaShift));
+    strcpy(temp->nama, nama);
+    temp->next = NULL;
+    return temp;
+}
+
+//fungsi untuk cek apakah maksimal shift dokter dan preferensi shift sesuai
+void CekMaksShiftKebutuhanPreferensiLaluAssign(NodeDokter* head, Jadwal* jadwal){ //jadwal di sini adalah element dari arrayJadwal (passing addressnya biar bisa terubah)
+    bool shift_in_day_full = false;
+    DokterPadaShift* temp;
+    DokterPadaShift* head_pagi = NULL, *current_pagi = NULL;
+    DokterPadaShift* head_siang = NULL, *current_siang = NULL;
+    DokterPadaShift* head_malam = NULL, *current_malam = NULL;
+    while (!shift_in_day_full && head != NULL){
+        if (head->shiftPagi == true && jadwal->pagi.kebutuhanTerpenuhi == false && head->maksShiftPerMinggu != 0){
+            temp = CreateNodeDokterDiShift(head->nama);
+            if (jadwal->pagi.head == NULL){
+                jadwal->pagi.head = temp;
+            } else {
+                current_pagi->next = temp;
+            }
+            current_pagi = temp;
+            
+            head->maksShiftPerMinggu--; //dokter sudah menempati satu shift, jadi tinggal sisanya
+            jadwal->pagi.kebutuhanDokter--; //sisa dokter yang masih dibutuhkan
+
+            if (jadwal->pagi.kebutuhanDokter == 0){
+                jadwal->pagi.kebutuhanTerpenuhi = true;
+            }
+        }
+        
+        if (head->shiftSiang == true && jadwal->siang.kebutuhanTerpenuhi == false && head->maksShiftPerMinggu != 0){
+            temp = CreateNodeDokterDiShift(head->nama);
+            if (jadwal->siang.head == NULL){
+                jadwal->siang.head = temp;
+            } else {
+                current_siang->next = temp;
+            }
+            current_siang = temp;
+            
+            head->maksShiftPerMinggu--; //dokter sudah menempati satu shift, jadi tinggal sisanya
+            jadwal->siang.kebutuhanDokter--; //sisa dokter yang masih dibutuhkan
+
+            if (jadwal->siang.kebutuhanDokter == 0){
+                jadwal->siang.kebutuhanTerpenuhi = true;
+            }
+        }
+
+        if (head->shiftMalam == true && jadwal->malam.kebutuhanTerpenuhi == false && head->maksShiftPerMinggu != 0){
+            temp = CreateNodeDokterDiShift(head->nama);
+            if (jadwal->malam.head == NULL){
+                jadwal->malam.head = temp;
+            } else {
+                current_malam->next = temp;
+            }
+            current_malam = temp;
+            
+            head->maksShiftPerMinggu--; //dokter sudah menempati satu shift, jadi tinggal sisanya
+            jadwal->malam.kebutuhanDokter--; //sisa dokter yang masih dibutuhkan
+
+            if (jadwal->malam.kebutuhanDokter == 0){
+                jadwal->malam.kebutuhanTerpenuhi = true;
+            }
+        }
+        //cek apakah kebutuhan shift pagi, siang, malam sudah terpenuhi 
+        if (jadwal->pagi.kebutuhanTerpenuhi == true && jadwal->siang.kebutuhanTerpenuhi == true && jadwal->malam.kebutuhanTerpenuhi == true){
+            shift_in_day_full = true;
+        }
+        head = head->next;
     }
 }
 
@@ -40,7 +115,7 @@ void ExportJadwalKeCSV(const char* filename, Jadwal arrayJadwal[30]) {
         fprintf(file, "%d", arrayJadwal[i].tanggal);
 
         // Tulis nama dokter untuk shift pagi (2 dokter)
-        DokterPadaTanggal* temp = arrayJadwal[i].pagi.head;
+        DokterPadaShift* temp = arrayJadwal[i].pagi.head;
         for (int j = 0; j < 2; j++) {
             if (temp != NULL) {
                 fprintf(file, ",%s", temp->nama);
