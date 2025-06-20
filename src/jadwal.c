@@ -5,6 +5,7 @@
 #include "dokter.h"
 #include "jadwal.h"
 
+
 //fungsi inisialisasi 30 hari dalam 1 bulan
 void InisialisasiArrayJadwal(Jadwal arrayJadwal[30]) {
     for (int i = 0; i < 30; i++) {
@@ -40,9 +41,9 @@ DokterPadaShift* CreateNodeDokterDiShift(char nama[MAX_NAME_LENGTH]){
 void CekMaksShiftKebutuhanPreferensiLaluAssign(NodeDokter* head, Jadwal* jadwal){
     bool shift_in_day_full = false;
     DokterPadaShift* temp;
-    DokterPadaShift* head_pagi = NULL, *current_pagi = NULL;
-    DokterPadaShift* head_siang = NULL, *current_siang = NULL;
-    DokterPadaShift* head_malam = NULL, *current_malam = NULL;
+    DokterPadaShift* current_pagi = NULL;
+    DokterPadaShift* current_siang = NULL;
+    DokterPadaShift* current_malam = NULL;
     while (!shift_in_day_full && head != NULL){
         //cek apakah dokter pada node sekarang mau shift pagi, apakah shift pagi lagi butuh orang, dan apakah dokter di node sekarang udah sampai batas shiftnya
         if (head->shiftPagi == true && jadwal->pagi.kebutuhanTerpenuhi == false && head->maksShiftPerMinggu != 0){
@@ -103,6 +104,98 @@ void CekMaksShiftKebutuhanPreferensiLaluAssign(NodeDokter* head, Jadwal* jadwal)
     }
 }
 
+void AssignDokterTanpaPreferensi(Jadwal* jadwal, NodeDokter* head, const char* shiftName) {
+    DokterPadaShift* temp;
+    DokterPadaShift* current;
+    bool flag = false;
+
+    while (!flag && head != NULL) {
+        if (strcmp(shiftName, "pagi") == 0 && head->maksShiftPerMinggu > 0) {
+            temp = CreateNodeDokterDiShift(head->nama);
+            if (jadwal->pagi.head == NULL) {
+                jadwal->pagi.head = temp;
+            } else {
+                current = jadwal->pagi.head;
+                while (current->next != NULL) {
+                    current = current->next;
+                }
+                current->next = temp;
+            }
+            head->maksShiftPerMinggu--;
+            jadwal->pagi.kebutuhanDokter--;
+            if (jadwal->pagi.kebutuhanDokter == 0) {
+                jadwal->pagi.kebutuhanTerpenuhi = true;
+                flag = true;
+            }
+        } else if (strcmp(shiftName, "siang") == 0 && head->maksShiftPerMinggu > 0) {
+            temp = CreateNodeDokterDiShift(head->nama);
+            if (jadwal->siang.head == NULL) {
+                jadwal->siang.head = temp;
+            } else {
+                current = jadwal->siang.head;
+                while (current->next != NULL) {
+                    current = current->next;
+                }
+                current->next = temp;
+            }
+            head->maksShiftPerMinggu--;
+            jadwal->siang.kebutuhanDokter--;
+            if (jadwal->siang.kebutuhanDokter == 0) {
+                jadwal->siang.kebutuhanTerpenuhi = true;
+                flag = true;
+            }
+        } else if (strcmp(shiftName, "malam") == 0 && head->maksShiftPerMinggu > 0) {
+            temp = CreateNodeDokterDiShift(head->nama);
+            if (jadwal->malam.head == NULL) {
+                jadwal->malam.head = temp;
+            } else {
+                current = jadwal->malam.head;
+                while (current->next != NULL) {
+                    current = current->next;
+                }
+                current->next = temp;
+            }
+            head->maksShiftPerMinggu--;
+            jadwal->malam.kebutuhanDokter--;
+            if (jadwal->malam.kebutuhanDokter == 0) {
+                jadwal->malam.kebutuhanTerpenuhi = true;
+                flag = true;
+            }
+        }
+        head = head->next;
+    }
+}
+
+
+void AmbilMaksShift(NodeDokter* head, MaksShift arrayMaksShift[]){
+    int ID = 0;
+    while(head != NULL){
+        strcpy(arrayMaksShift[ID].nama, head->nama);
+        arrayMaksShift[ID].maksShiftPerMinggu = head->maksShiftPerMinggu;
+        head = head->next;
+        ID++;
+    }
+}
+
+void ResetMaksShift(NodeDokter* head, MaksShift arrayMaksShift[]){
+    int ID = 0;
+    while(head != NULL){
+        if(strcmp(arrayMaksShift[ID].nama, head->nama) == 0){
+            head->maksShiftPerMinggu = arrayMaksShift[ID].maksShiftPerMinggu;
+            head = head->next;
+            ID++;
+        }
+    }
+}
+
+int HitungJumlahDokter(NodeDokter* head){
+    int jumlahDokter = 0;
+    while (head != NULL){
+        jumlahDokter++;
+        head = head->next;
+    }
+    return jumlahDokter;
+}
 
 //ubah jadwal yang telah dibuat ke CSV
 void ExportJadwalKeCSV(const char* filename, Jadwal arrayJadwal[30]) {
@@ -159,4 +252,3 @@ void ExportJadwalKeCSV(const char* filename, Jadwal arrayJadwal[30]) {
 
     fclose(file);
 }
-

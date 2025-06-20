@@ -44,6 +44,7 @@ NodeDokter* BacaDaftarDokterDariFile(const char* filename) {
         pagi = strcmp(strtok(NULL, ","), "true") == 0;
         siang = strcmp(strtok(NULL, ","), "true") == 0;
         malam = strcmp(strtok(NULL, ",\n"), "true") == 0;
+        token[strcspn(token, "\r\n")] = '\0';
 
         NodeDokter* newNode = CreateNodeDokter(nama, maksShift, pagi, siang, malam);
         if (head == NULL) head = newNode;
@@ -62,5 +63,13 @@ void PrintListDokter(NodeDokter* head) {
             head->nama, head->maksShiftPerMinggu,
             head->shiftPagi, head->shiftSiang, head->shiftMalam);
         head = head->next;
+    }
+}
+
+void FreeListDokter(NodeDokter* head){
+    while (head != NULL) {
+        NodeDokter* temp = head;
+        head = head->next;
+        free(temp);
     }
 }

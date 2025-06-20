@@ -26,10 +26,10 @@ typedef struct Jadwal {
     Shift malam;
 } Jadwal;
 
-typedef struct maksShift {
+typedef struct MaksShift {
     char nama[MAX_NAME_LENGTH];
     unsigned short int maksShiftPerMinggu;
-} maksShift;
+} MaksShift;
 //buat node dokter untuk shift tertentu pada suatu tanggal
 //input: nama dokter dari linked-list dokter
 //output: node dokter pada shift untuk linked-list dokter pada suatu shift
@@ -38,7 +38,7 @@ DokterPadaShift* CreateNodeDokterDiShift(char nama[MAX_NAME_LENGTH]);
 //inisialisasi array jadwal kosong
 //input: ArrayJadwal (dideklarasikan di main)
 //output: ArrayJadwal (dideklarasikan di main) (sebenernya void jadi gak return apa-apa)
-void InisialisasiJadwal(Jadwal ArrayJadwal[]);
+void InisialisasiArrayJadwal(Jadwal ArrayJadwal[30]);
 
 //fungsi ini akan mengiterasi linked-list dokter pada tanggal tertentu.
 //dicek apakah beberapa kondisi terpenuhi: 
@@ -52,15 +52,20 @@ void InisialisasiJadwal(Jadwal ArrayJadwal[]);
 void CekMaksShiftKebutuhanPreferensiLaluAssign(NodeDokter* head, Jadwal* jadwal);
 
 //fungsi untuk looping tanggal-nya
-void LoopTanggal(Jadwal arrayJadwal[30], Jadwal* jadwal, NodeDokter* head, int jumlahDokter, int *jumlahPelanggaran);
+void LoopTanggal(Jadwal arrayJadwal[30], NodeDokter* head, int jumlahDokter, int *jumlahPelanggaran);
 
 //fungsi untuk assign dokter tanpa peduli preferensi
-void AssignDokterTanpaPreferensi(Jadwal* jadwal, NodeDokter* head, char[MAX_SHIFT_NAME]);
+void AssignDokterTanpaPreferensi(Jadwal* jadwal, NodeDokter* head, const char* shiftName);
 
 //fungsi untuk mengekstrak maks-shift dari setiap dokter
-void AmbilMaksShift(NodeDokter* head, maksShift arrayMaksShift[]);
+void AmbilMaksShift(NodeDokter* head, MaksShift arrayMaksShift[]);
 
 //fungsi untuk mereset shift dokter setelah satu minggu (menggunakaan data dari AmbilMaksShift)
-void ResetMaksShift(NodeDokter* head, maksShift arrayMaksShift[]);
+void ResetMaksShift(NodeDokter* head, MaksShift arrayMaksShift[]);
 
+int HitungJumlahDokter(NodeDokter* head);
+
+void FreeListDokter(NodeDokter* head);
+
+void ExportJadwalKeCSV(const char* filename, Jadwal arrayJadwal[30]);
 #endif

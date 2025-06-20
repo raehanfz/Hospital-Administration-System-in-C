@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.vhd": "vhdl",
+        "jadwal.h": "c",
+        "dokter.h": "c"
+    }
+}
