@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#define MAX_NAME_LENGTH 30
+#define MAX_NAME_LENGTH 64
 
 //struktur data informasi dokter
 typedef struct NodeDokter {
