@@ -17,13 +17,9 @@ int main(void) {
 
     //antarmuka
     antarmuka(ArrayJadwal, jumlahPelanggaran);
-    //to debug
-    //PrintListDokter(daftarDokter);
 
     //tulis hasil jadwal ke CSV
-
-
-    ExportJadwalKeCSV("jadwal_dokter.csv", ArrayJadwal);
+    ExportJadwalKeCSV("data_dummy/jadwal_dokter.csv", ArrayJadwal);
     FreeListDokter(daftarDokter);
     
     return 0;
