@@ -3,6 +3,13 @@
 
 #include <stdbool.h>
 #include "dokter.h" //include semua fungsi di header dokter
+#define MAX_SHIFT_NAME 10
+
+//struktur data untuk meyimpan maksimal shift dari setiap dokter
+typedef struct MaksShift {
+    char nama[MAX_NAME_LENGTH];
+    unsigned short int maksShiftPerMinggu;
+} MaksShift;
 
 //struktur data dokter untuk shift tertentu pada suatu tanggal
 typedef struct DokterPadaShift {
@@ -45,5 +52,17 @@ void InisialisasiJadwal(Jadwal ArrayJadwal[]);
 //input: Linked-list dokter (head nya aja, lalu ditransversal) dan address dari element array jadwal (contoh: &ArrayJadwal[0])
 //output: Gak ada, fungsinya cuman memperbarui element array jadwal (makanya yang dipass itu addressnya juga, bukan value aja)
 void CekMaksShiftKebutuhanPreferensiLaluAssign(NodeDokter* head, Jadwal* jadwal);
+
+//fungsi untuk looping tanggal-nya
+void LoopTanggal(Jadwal arrayJadwal[30], Jadwal* jadwal, NodeDokter* head, int jumlahDokter, int *jumlahPelanggaran);
+
+//fungsi untuk assign dokter tanpa peduli preferensi
+void AssignDokterTanpaPreferensi(Jadwal* jadwal, NodeDokter* head, char[MAX_SHIFT_NAME]);
+
+//fungsi untuk mengekstrak maks-shift dari setiap dokter
+void AmbilMaksShift(NodeDokter* head, MaksShift arrayMaksShift[]);
+
+//fungsi untuk mereset shift dokter setelah satu minggu (menggunakaan data dari AmbilMaksShift)
+void ResetMaksShift(NodeDokter* head, MaksShift arrayMaksShift[]);
 
 #endif
