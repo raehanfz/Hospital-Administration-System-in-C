@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "jadwal.h" 
 #include "dokter.h"
+#include "jadwal.h"
 
 //fungsi inisialisasi 30 hari dalam 1 bulan
 void InisialisasiArrayJadwal(Jadwal arrayJadwal[30]) {
@@ -103,28 +103,6 @@ void CekMaksShiftKebutuhanPreferensiLaluAssign(NodeDokter* head, Jadwal* jadwal)
     }
 }
 
-void AmbilMaksShift(NodeDokter* head, MaksShift arrayMaksShift[]){
-    int ID = 0;
-    NodeDokter* temp = head;
-    while(temp != NULL){
-        strcpy(arrayMaksShift[ID].nama, temp->nama);
-        arrayMaksShift[ID].maksShiftPerMinggu = temp->maksShiftPerMinggu;
-        temp = temp->next;
-        ID++;
-    }
-}
-
-void ResetMaksShift(NodeDokter* head, MaksShift arrayMaksShift[]){
-    int ID = 0;
-    NodeDokter* temp = head;
-    while(temp != NULL){
-        if(strcmp(arrayMaksShift[ID].nama, temp->nama) == 0){
-            temp->maksShiftPerMinggu = arrayMaksShift[ID].maksShiftPerMinggu;
-            temp = temp->next;
-            ID++;
-        }
-    }
-}
 
 //ubah jadwal yang telah dibuat ke CSV
 void ExportJadwalKeCSV(const char* filename, Jadwal arrayJadwal[30]) {
@@ -181,3 +159,4 @@ void ExportJadwalKeCSV(const char* filename, Jadwal arrayJadwal[30]) {
 
     fclose(file);
 }
+

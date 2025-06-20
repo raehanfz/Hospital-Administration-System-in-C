@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "dokter.h"
+#include "jadwal.h"
 
 #define FILE_NEWLINE_BUFFER 100
 

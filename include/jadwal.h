@@ -5,12 +5,6 @@
 #include "dokter.h" //include semua fungsi di header dokter
 #define MAX_SHIFT_NAME 10
 
-//struktur data untuk meyimpan maksimal shift dari setiap dokter
-typedef struct MaksShift {
-    char nama[MAX_NAME_LENGTH];
-    unsigned short int maksShiftPerMinggu;
-} MaksShift;
-
 //struktur data dokter untuk shift tertentu pada suatu tanggal
 typedef struct DokterPadaShift {
     char nama[MAX_NAME_LENGTH];
@@ -32,6 +26,10 @@ typedef struct Jadwal {
     Shift malam;
 } Jadwal;
 
+typedef struct maksShift {
+    char nama[MAX_NAME_LENGTH];
+    unsigned short int maksShiftPerMinggu;
+} maksShift;
 //buat node dokter untuk shift tertentu pada suatu tanggal
 //input: nama dokter dari linked-list dokter
 //output: node dokter pada shift untuk linked-list dokter pada suatu shift
@@ -60,9 +58,9 @@ void LoopTanggal(Jadwal arrayJadwal[30], Jadwal* jadwal, NodeDokter* head, int j
 void AssignDokterTanpaPreferensi(Jadwal* jadwal, NodeDokter* head, char[MAX_SHIFT_NAME]);
 
 //fungsi untuk mengekstrak maks-shift dari setiap dokter
-void AmbilMaksShift(NodeDokter* head, MaksShift arrayMaksShift[]);
+void AmbilMaksShift(NodeDokter* head, maksShift arrayMaksShift[]);
 
 //fungsi untuk mereset shift dokter setelah satu minggu (menggunakaan data dari AmbilMaksShift)
-void ResetMaksShift(NodeDokter* head, MaksShift arrayMaksShift[]);
+void ResetMaksShift(NodeDokter* head, maksShift arrayMaksShift[]);
 
 #endif
