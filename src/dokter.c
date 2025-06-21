@@ -15,6 +15,7 @@ NodeDokter* CreateNodeDokter(char nama[MAX_NAME_LENGTH], unsigned short int maks
     temp->shiftPagi = pagi;
     temp->shiftSiang = siang;
     temp->shiftMalam = malam;
+    temp->pelanggaran = 0;
     temp->next = NULL;
     return temp;
 }
@@ -83,7 +84,6 @@ void PrioritizeDokterList(NodeDokter** head){
         current = next;
     }
 
-    // Concatenate lists: oneShift -> twoShift -> threeShift
     NodeDokter* newHead = oneShiftHead;
     if (oneShiftTail) oneShiftTail->next = twoShiftHead;
     else newHead = twoShiftHead;
@@ -94,7 +94,15 @@ void PrioritizeDokterList(NodeDokter** head){
 
     *head = newHead;
 }
-
+int HitungTotalPelanggaran(NodeDokter* head){
+    int total = 0;
+    NodeDokter* curr = head;
+    while (curr != NULL) {
+        total += curr->pelanggaran;
+        curr = curr->next;
+    }
+    return total;
+}
 
 //fungsi debug (opsinonal, buat print aja)
 void PrintListDokter(NodeDokter* head) {

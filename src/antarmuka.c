@@ -92,7 +92,7 @@ void antarmuka(Jadwal arrayJadwal[30], NodeDokter** head,int jumlahPelanggaran){
 
             printf("\n==Tambah Dokter==\n");
 
-            getchar(); // ✅ Tambahkan ini
+            getchar(); 
             printf("Nama Dokter: ");
             fgets(nama, MAX_NAME_LENGTH, stdin);
             nama[strcspn(nama, "\n")] = '\0';  // Hapus newline
@@ -129,7 +129,16 @@ void antarmuka(Jadwal arrayJadwal[30], NodeDokter** head,int jumlahPelanggaran){
             DeleteDokter(head, nama);
         }
         else if (menu == 4){
-            printf("total pelanggaran preferensi dokter: %d", jumlahPelanggaran);
+            unsigned short int pelanggaran;
+            printf("\n==Pelanggaran==\n");
+            printf("1. Total pelanggaran\n2. Pelanggaran setiap dokter\n");
+            printf("pilih menu pelanggaran (pilih angka saja): ");
+            scanf("%hu", &pelanggaran);
+            if (pelanggaran == 2){
+                PrintPelanggaranPerDokter(*head);
+            } else {
+                printf("total pelanggaran preferensi dokter: %d", jumlahPelanggaran);
+            }
         }else if (menu == 5){
             exitmessege();
             exit = true;

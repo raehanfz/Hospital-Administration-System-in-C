@@ -3,8 +3,7 @@
 #include <string.h>
 #include "jadwal.h"
 
-void LoopTanggal(Jadwal arrayJadwal[30], NodeDokter* head, int jumlahDokter, int *jumlahPelanggaran) {
-    int pelanggaran = 0;
+void LoopTanggal(Jadwal arrayJadwal[30], NodeDokter* head, int jumlahDokter) {
     int week = 0;
     MaksShift arrayMaksShift[jumlahDokter];
 
@@ -19,15 +18,12 @@ void LoopTanggal(Jadwal arrayJadwal[30], NodeDokter* head, int jumlahDokter, int
 
                 if (!arrayJadwal[index].pagi.kebutuhanTerpenuhi) {
                     AssignDokterTanpaPreferensi(&arrayJadwal[index], head, "pagi");
-                    pelanggaran++;
                 }
                 if (!arrayJadwal[index].siang.kebutuhanTerpenuhi) {
                     AssignDokterTanpaPreferensi(&arrayJadwal[index], head, "siang");
-                    pelanggaran++;
                 }
                 if (!arrayJadwal[index].malam.kebutuhanTerpenuhi) {
                     AssignDokterTanpaPreferensi(&arrayJadwal[index], head, "malam");
-                    pelanggaran++;
                 }
             }
         }
@@ -39,15 +35,12 @@ void LoopTanggal(Jadwal arrayJadwal[30], NodeDokter* head, int jumlahDokter, int
 
                 if (!arrayJadwal[index].pagi.kebutuhanTerpenuhi) {
                     AssignDokterTanpaPreferensi(&arrayJadwal[index], head, "pagi");
-                    pelanggaran++;
                 }
                 if (!arrayJadwal[index].siang.kebutuhanTerpenuhi) {
                     AssignDokterTanpaPreferensi(&arrayJadwal[index], head, "siang");
-                    pelanggaran++;
                 }
                 if (!arrayJadwal[index].malam.kebutuhanTerpenuhi) {
                     AssignDokterTanpaPreferensi(&arrayJadwal[index], head, "malam");
-                    pelanggaran++;
                 }
             }
 
@@ -56,6 +49,5 @@ void LoopTanggal(Jadwal arrayJadwal[30], NodeDokter* head, int jumlahDokter, int
         }
     }
     ResetMaksShift(head, arrayMaksShift);
-    *jumlahPelanggaran = pelanggaran; // Simpan jumlah pelanggaran ke variabel yang diberikan
 }
 

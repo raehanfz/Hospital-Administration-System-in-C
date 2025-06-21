@@ -52,13 +52,15 @@ void InisialisasiArrayJadwal(Jadwal ArrayJadwal[30]);
 void CekMaksShiftKebutuhanPreferensiLaluAssign(NodeDokter* head, Jadwal* jadwal);
 
 //fungsi untuk looping tanggal-nya
-void LoopTanggal(Jadwal arrayJadwal[30], NodeDokter* head, int jumlahDokter, int *jumlahPelanggaran);
+void LoopTanggal(Jadwal arrayJadwal[30], NodeDokter* head, int jumlahDokter);
 
 //fungsi untuk assign dokter tanpa peduli preferensi
 void AssignDokterTanpaPreferensi(Jadwal* jadwal, NodeDokter* head, const char* shiftName);
 
 //fungsi untuk mengekstrak maks-shift dari setiap dokter
 void AmbilMaksShift(NodeDokter* head, MaksShift arrayMaksShift[]);
+
+void PrintPelanggaranPerDokter(NodeDokter* head);
 
 //fungsi untuk mereset shift dokter setelah satu minggu (menggunakaan data dari AmbilMaksShift)
 void ResetMaksShift(NodeDokter* head, MaksShift arrayMaksShift[]);

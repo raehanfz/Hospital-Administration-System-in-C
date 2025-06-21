@@ -12,6 +12,7 @@ typedef struct NodeDokter {
     bool shiftPagi;
     bool shiftSiang;
     bool shiftMalam;
+    unsigned short int pelanggaran;
     struct NodeDokter* next;
 } NodeDokter;
 
@@ -22,6 +23,7 @@ NodeDokter* CreateNodeDokter(char nama[MAX_NAME_LENGTH], unsigned short int maks
 
 void PrioritizeDokterList(NodeDokter** head);
 
+int HitungTotalPelanggaran(NodeDokter* head);
 //membaca file CSV dan membentuk linked list dokter
 //input: nama file csv
 //output: Linked-list dokter, yang direturn adalah head dari linked-listnya

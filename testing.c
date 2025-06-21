@@ -19,9 +19,8 @@ int main(void) {
     int jumlahDokter = HitungJumlahDokter(daftarDokter); 
     
     // Hitung penjadwalan awal
-    int jumlahPelanggaran = 0;
-    LoopTanggal(ArrayJadwal, daftarDokter, jumlahDokter, &jumlahPelanggaran);
-
+    LoopTanggal(ArrayJadwal, daftarDokter, jumlahDokter);
+    int jumlahPelanggaran = HitungTotalPelanggaran(daftarDokter);
     // Jalankan antarmuka (user bisa menambah/menghapus dokter)
     antarmuka(ArrayJadwal, &daftarDokter, jumlahPelanggaran);
 
@@ -36,7 +35,7 @@ int main(void) {
 
     // Jadwalkan ulang dengan data terbaru
     jumlahPelanggaran = 0;
-    LoopTanggal(ArrayJadwal, daftarDokter, jumlahDokter, &jumlahPelanggaran);
+    LoopTanggal(ArrayJadwal, daftarDokter, jumlahDokter);
 
     // Simpan jadwal ke file
     ExportJadwalKeCSV("data/jadwal_dokter.csv", ArrayJadwal);

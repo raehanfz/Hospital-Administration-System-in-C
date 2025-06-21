@@ -111,6 +111,7 @@ void AssignDokterTanpaPreferensi(Jadwal* jadwal, NodeDokter* head, const char* s
 
     while (!flag && head != NULL) {
         if (strcmp(shiftName, "pagi") == 0 && head->maksShiftPerMinggu > 0) {
+            if (!head->shiftPagi) head->pelanggaran++;
             temp = CreateNodeDokterDiShift(head->nama);
             if (jadwal->pagi.head == NULL) {
                 jadwal->pagi.head = temp;
@@ -129,6 +130,7 @@ void AssignDokterTanpaPreferensi(Jadwal* jadwal, NodeDokter* head, const char* s
             }
         } else if (strcmp(shiftName, "siang") == 0 && head->maksShiftPerMinggu > 0) {
             temp = CreateNodeDokterDiShift(head->nama);
+            if (!head->shiftSiang) head->pelanggaran++;
             if (jadwal->siang.head == NULL) {
                 jadwal->siang.head = temp;
             } else {
@@ -146,6 +148,7 @@ void AssignDokterTanpaPreferensi(Jadwal* jadwal, NodeDokter* head, const char* s
             }
         } else if (strcmp(shiftName, "malam") == 0 && head->maksShiftPerMinggu > 0) {
             temp = CreateNodeDokterDiShift(head->nama);
+            if (!head->shiftMalam) head->pelanggaran++;
             if (jadwal->malam.head == NULL) {
                 jadwal->malam.head = temp;
             } else {
@@ -165,7 +168,13 @@ void AssignDokterTanpaPreferensi(Jadwal* jadwal, NodeDokter* head, const char* s
         head = head->next;
     }
 }
-
+void PrintPelanggaranPerDokter(NodeDokter* head){
+    printf("\n== Daftar Pelanggaran Preferensi per Dokter ==\n");
+    while (head != NULL) {
+        printf("Nama: %s - Pelanggaran: %d\n", head->nama, head->pelanggaran);
+        head = head->next;
+    }
+}
 
 void AmbilMaksShift(NodeDokter* head, MaksShift arrayMaksShift[]){
     int ID = 0;
