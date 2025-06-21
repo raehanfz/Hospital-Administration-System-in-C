@@ -4,31 +4,36 @@
 #include <string.h>
 #include "jadwal.h"
 
-void printJadwalHarian(Jadwal hari, int tanggal){
-    printf("\n==Jadwal==\n");
-    printf("Tanggal: %d\n", tanggal);
+#include <stdio.h>
 
-    printf("\nShift pagi:\n");
-    DokterPadaShift* temp = hari.pagi.head;
-    while (temp != NULL){
-        printf("%s\n", temp->nama);
-        temp = temp->next;
+void printShift(const char* namaShift, DokterPadaShift* head) {
+    printf("│  %-10s\n", namaShift);
+    printf("├────────────\n");
+
+    if (head == NULL) {
+        printf("│  (Kosong)\n");
+    } else {
+        int i = 1;
+        while (head != NULL) {
+            printf("│  %d. %s\n", i++, head->nama);
+            head = head->next;
+        }
     }
 
-    printf("\nShift siang:\n");
-    temp = hari.siang.head;
-    while (temp != NULL){
-        printf("%s\n", temp->nama);
-        temp = temp->next;
-    }
-
-    printf("\nShift malam:\n");
-    temp = hari.malam.head;
-    while (temp != NULL){
-        printf("%s\n", temp->nama);
-        temp = temp->next;
-    }
+    printf("├────────────\n\n");
 }
+
+void printJadwalHarian(Jadwal hari, int tanggal) {
+    printf("\n╔════════════════════════════╗\n");
+    printf("║      JADWAL DOKTER HARIAN  ║\n");
+    printf("╚════════════════════════════╝\n");
+    printf("Tanggal: %2d\n\n", tanggal);
+
+    printShift("Pagi", hari.pagi.head);
+    printShift("Siang", hari.siang.head);
+    printShift("Malam", hari.malam.head);
+}
+
 
 void printJadwalMingguan(Jadwal ArrayJadwal[30], int minggu){
     if (minggu == 5){
@@ -52,114 +57,129 @@ void exitmessege(){
     printf("TUBES PMP SELESAIIII (YIPPIEEE)");
 }
 
-void antarmuka(Jadwal arrayJadwal[30], NodeDokter** head, int jumlahPelanggaran){
+void antarmuka(Jadwal arrayJadwal[30], NodeDokter** head, int jumlahPelanggaran) {
     bool exit = false;
     int menu;
 
-    while (!exit){
-        printf("\n==MANAJEMEN RUMAH SAKIT ALEXANDER KNALPOT==\n");
-        printf("pilih menu: (masukkan angka saja)\n");
-        printf("1. lihat Jadwal Dokter\n2. tambah dokter\n3. hapus dokter\n4. lihat pelanggaran preferensi\n5. exit\n");
-        printf("pilih menu (masukkan angka saja): ");
+    while (!exit) {
+        printf("\n╔════════════════════════════════════════════╗\n");
+        printf("║   MANAJEMEN RUMAH SAKIT ALEXANDER KNALPOT ║\n");
+        printf("╚════════════════════════════════════════════╝\n");
+        printf("Pilih menu (masukkan angka):\n");
+        printf("  1. Lihat Jadwal Dokter\n");
+        printf("  2. Tambah Dokter\n");
+        printf("  3. Hapus Dokter\n");
+        printf("  4. Lihat Pelanggaran Preferensi\n");
+        printf("  5. Keluar\n");
+        printf(">> ");
         scanf("%d", &menu);
 
-        if (menu == 1){
+        if (menu == 1) {
             int jadwal;
-            printf("\n==JADWAL DOKTER==\n");
-            printf("pilih menu: (masukkan angka saja)\n");
-            printf("1. Jadwal harian\n2. Jadwal mingguan\n3. Jadwal satu bulan\n");
-            printf("pilih jadwal (masukkan angka saja): ");
+            printf("\n╔═════ LIHAT JADWAL DOKTER ═════╗\n");
+            printf("Pilih jenis jadwal:\n");
+            printf("  1. Jadwal Harian\n");
+            printf("  2. Jadwal Mingguan\n");
+            printf("  3. Jadwal Bulanan\n");
+            printf(">> ");
             scanf("%d", &jadwal);
-            if (jadwal == 1){
+
+            if (jadwal == 1) {
                 int tanggal;
-                printf("pilih tanggal (1-30): ");
+                printf("Pilih tanggal (1-30): ");
                 scanf("%d", &tanggal);
-                printJadwalHarian(arrayJadwal[tanggal-1], tanggal);
+                if (tanggal >= 1 && tanggal <= 30)
+                    printJadwalHarian(arrayJadwal[tanggal - 1], tanggal);
+                else
+                    printf("Tanggal tidak valid!\n");
             } else if (jadwal == 2) {
                 int minggu;
-                printf("pilih minggu (1-5): ");
+                printf("Pilih minggu (1-5): ");
                 scanf("%d", &minggu);
                 printJadwalMingguan(arrayJadwal, minggu);
             } else if (jadwal == 3) {
                 printJadwal(arrayJadwal);
             } else {
-                printf("input tidak valid");
+                printf("Input tidak valid.\n");
             }
         }
 
-        else if (menu == 2 || menu == 3){
+        else if (menu == 2 || menu == 3) {
             if (menu == 2) {
                 char nama[MAX_NAME_LENGTH];
                 unsigned short int MaksShift1Minggu;
                 bool shiftPagi, shiftSiang, shiftMalam;
 
-                printf("\n==Tambah Dokter==\n");
-                getchar(); 
+                printf("\n╔═════ TAMBAH DOKTER ═════╗\n");
+                getchar(); // clear buffer
                 printf("Nama Dokter: ");
                 fgets(nama, MAX_NAME_LENGTH, stdin);
                 nama[strcspn(nama, "\n")] = '\0';
 
-                printf("Maksimal shift dokter per minggu: ");
+                printf("Maksimal shift per minggu: ");
                 scanf("%hu", &MaksShift1Minggu);
 
                 int input;
-                printf("Preferensi shift pagi (1 untuk iya, 0 untuk tidak): ");
+                printf("Preferensi shift pagi (1/0): ");
                 scanf("%d", &input); shiftPagi = input;
-
-                printf("Preferensi shift siang (1 untuk iya, 0 untuk tidak): ");
+                printf("Preferensi shift siang (1/0): ");
                 scanf("%d", &input); shiftSiang = input;
-
-                printf("Preferensi shift malam (1 untuk iya, 0 untuk tidak): ");
+                printf("Preferensi shift malam (1/0): ");
                 scanf("%d", &input); shiftMalam = input;
 
                 AddDokterToDaftarDokter(head, nama, MaksShift1Minggu, shiftPagi, shiftSiang, shiftMalam);
             }
 
-            else if (menu == 3){
+            else if (menu == 3) {
                 char nama[MAX_NAME_LENGTH];
-                printf("\n==Hapus Dokter==\n");
+                printf("\n╔═════ HAPUS DOKTER ═════╗\n");
+                getchar(); // flush newline
                 printf("Nama Dokter: ");
-                getchar();
                 fgets(nama, MAX_NAME_LENGTH, stdin);
                 nama[strcspn(nama, "\n")] = '\0';
+
                 DeleteDokter(head, nama);
             }
 
-            // === Real-time Recalculate ===
+            // === Recalculate and Save ===
             int jumlahDokter = HitungJumlahDokter(*head);
             InisialisasiArrayJadwal(arrayJadwal);
-            
-            // Reset pelanggaran per dokter ke nol
+
             NodeDokter* curr = *head;
-            while (curr != NULL){
+            while (curr != NULL) {
                 curr->pelanggaran = 0;
                 curr = curr->next;
             }
 
-            // Jalankan ulang loop penjadwalan
             LoopTanggal(arrayJadwal, *head, jumlahDokter);
 
-            // Update CSV
             ExportDokterToCSV(*head, "data/contoh_daftar_dokter.csv");
             ExportJadwalKeCSV("data/jadwal_dokter.csv", arrayJadwal);
         }
 
-        else if (menu == 4){
+        else if (menu == 4) {
             unsigned short int pelanggaranMenu;
-            printf("\n==Pelanggaran==\n");
-            printf("1. Total pelanggaran\n2. Pelanggaran setiap dokter\n");
-            printf("pilih menu pelanggaran (pilih angka saja): ");
+            printf("\n╔═════ LIHAT PELANGGARAN ═════╗\n");
+            printf("  1. Total pelanggaran\n");
+            printf("  2. Per dokter\n");
+            printf(">> ");
             scanf("%hu", &pelanggaranMenu);
-            if (pelanggaranMenu == 2){
+
+            if (pelanggaranMenu == 2) {
                 PrintPelanggaranPerDokter(*head);
             } else {
-                printf("total pelanggaran preferensi dokter: %d\n", jumlahPelanggaran);
+                printf("Total pelanggaran preferensi: %d\n", jumlahPelanggaran);
             }
         }
 
-        else if (menu == 5){
+        else if (menu == 5) {
             exitmessege();
             exit = true;
         }
+
+        else {
+            printf("Menu tidak tersedia. Silakan pilih antara 1-5.\n");
+        }
     }
 }
+
