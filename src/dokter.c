@@ -56,6 +56,46 @@ NodeDokter* BacaDaftarDokterDariFile(const char* filename) {
     return head;
 }
 
+void PrioritizeDokterList(NodeDokter** head){
+    NodeDokter *oneShiftHead = NULL, *oneShiftTail = NULL;
+    NodeDokter *twoShiftHead = NULL, *twoShiftTail = NULL;
+    NodeDokter *threeShiftHead = NULL, *threeShiftTail = NULL;
+
+    NodeDokter* current = *head;
+
+    while (current != NULL) {
+        NodeDokter* next = current->next;
+        current->next = NULL;
+
+        int count = current->shiftPagi + current->shiftSiang + current->shiftMalam;
+
+        if (count == 1) {
+            if (oneShiftHead == NULL) oneShiftHead = oneShiftTail = current;
+            else oneShiftTail = oneShiftTail->next = current;
+        } else if (count == 2) {
+            if (twoShiftHead == NULL) twoShiftHead = twoShiftTail = current;
+            else twoShiftTail = twoShiftTail->next = current;
+        } else {
+            if (threeShiftHead == NULL) threeShiftHead = threeShiftTail = current;
+            else threeShiftTail = threeShiftTail->next = current;
+        }
+
+        current = next;
+    }
+
+    // Concatenate lists: oneShift -> twoShift -> threeShift
+    NodeDokter* newHead = oneShiftHead;
+    if (oneShiftTail) oneShiftTail->next = twoShiftHead;
+    else newHead = twoShiftHead;
+
+    if (twoShiftTail) twoShiftTail->next = threeShiftHead;
+    else if (oneShiftTail) oneShiftTail->next = threeShiftHead;
+    else newHead = threeShiftHead;
+
+    *head = newHead;
+}
+
+
 //fungsi debug (opsinonal, buat print aja)
 void PrintListDokter(NodeDokter* head) {
     while (head) {
