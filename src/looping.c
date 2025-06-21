@@ -12,7 +12,6 @@ void LoopTanggal(Jadwal arrayJadwal[30], NodeDokter* head, int jumlahDokter, int
     for (int tanggal = 1; tanggal <= 30; tanggal++) {
         CekMaksShiftKebutuhanPreferensiLaluAssign(head, &arrayJadwal[tanggal - 1]);
 
-        // First handle special case: Day 29 and 30 (incomplete week)
         if (tanggal == 29 || tanggal == 30) {
             for (int j = 0; j < 2; j++) {
                 int index = j + 7 * week;
@@ -33,7 +32,6 @@ void LoopTanggal(Jadwal arrayJadwal[30], NodeDokter* head, int jumlahDokter, int
             }
         }
 
-        // Then handle weekly assignment after every 7 days
         else if (tanggal % 7 == 0) {
             for (int j = 0; j < 7; j++) {
                 int index = j + 7 * week;
@@ -57,7 +55,7 @@ void LoopTanggal(Jadwal arrayJadwal[30], NodeDokter* head, int jumlahDokter, int
             ResetMaksShift(head, arrayMaksShift); // Reset maks shift dokter setiap minggu
         }
     }
-
+    ResetMaksShift(head, arrayMaksShift);
     *jumlahPelanggaran = pelanggaran; // Simpan jumlah pelanggaran ke variabel yang diberikan
 }
 

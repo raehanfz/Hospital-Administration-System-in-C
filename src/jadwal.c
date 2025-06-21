@@ -197,6 +197,43 @@ int HitungJumlahDokter(NodeDokter* head){
     return jumlahDokter;
 }
 
+void AddDokterToDaftarDokter(NodeDokter** daftarDokter, char nama[MAX_NAME_LENGTH], unsigned short int maksShift, bool pagi, bool siang, bool malam){
+    NodeDokter *newNodeDokter = CreateNodeDokter(nama, maksShift, pagi, siang, malam); // Node dokter baru
+    newNodeDokter->next = *daftarDokter; // Sambung newnode di paling depan linked list
+    *daftarDokter = newNodeDokter; // ubah alamat head dari daftarDokter
+}
+
+void DeleteDokter(NodeDokter** daftarDokter, char nama[MAX_NAME_LENGTH]){
+    NodeDokter *ptr = *daftarDokter;
+    NodeDokter *before = NULL;
+    NodeDokter *after = ptr->next;
+
+    int compare;
+    while(ptr != NULL){
+        compare = strcmp(nama, ptr->nama);
+        if(compare == 0){ // Kalau nama current pointer sama dengan nama yang dicari, maka delete
+            NodeDokter *temp = ptr;
+            if(ptr == *daftarDokter){ // Kasus yang didelete ada di head, maka ubah alamat head
+                *daftarDokter = (*daftarDokter)->next;
+            }
+            else{ // Kasus biasa, ubah alamat next dari before
+                before->next = after; // Sambung ke elemen setelah current pointer
+            }
+            free(temp);
+            return;
+        }
+        before = ptr;
+        ptr = ptr->next;
+        if(after == NULL){ // Untuk menghindari error kalau after sudah menjadi NULL
+            after = NULL;
+        }
+        else{
+            after = ptr->next;
+        }
+    }
+    printf("Nama %s tidak ditemukan!\n", nama);
+}
+
 //ubah jadwal yang telah dibuat ke CSV
 void ExportJadwalKeCSV(const char* filename, Jadwal arrayJadwal[30]) {
     FILE* file = fopen(filename, "w");
@@ -250,5 +287,31 @@ void ExportJadwalKeCSV(const char* filename, Jadwal arrayJadwal[30]) {
         fprintf(file, "\n");
     }
 
+    fclose(file);
+}
+
+void ExportDokterToCSV(NodeDokter* daftarDokter, const char* filename) {
+    FILE* file = fopen(filename, "w");
+    if (file == NULL) {
+        perror("Gagal membuka file untuk menulis");
+        return;
+    }
+
+    // Tulis header CSV
+    fprintf(file, "Nama,MaksShiftPerMinggu,ShiftPagi,ShiftSiang,ShiftMalam\n");
+
+    // Tulis data tiap dokter
+    NodeDokter* current = daftarDokter;
+    while (current != NULL) {
+        fprintf(
+            file, "%s,%hu,%s,%s,%s\n",
+            current->nama,
+            current->maksShiftPerMinggu,
+            current->shiftPagi ? "true" : "false",
+            current->shiftSiang ? "true" : "false",
+            current->shiftMalam ? "true" : "false"
+        );
+        current = current->next;
+    }
     fclose(file);
 }

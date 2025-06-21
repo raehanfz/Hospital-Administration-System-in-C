@@ -5,22 +5,41 @@
 #include "antarmuka.h"
 
 int main(void) {
-    //deklarasi dan inisialisasi
+    // 1. Baca daftar dokter dari file CSV
     NodeDokter* daftarDokter = BacaDaftarDokterDariFile("data/contoh_daftar_dokter.csv");
-    int jumlahDokter = HitungJumlahDokter(daftarDokter); 
-
+    
+    // 2. Inisialisasi array jadwal kosong
     Jadwal ArrayJadwal[30];
     InisialisasiArrayJadwal(ArrayJadwal); 
+    
+    // 3. Hitung jumlah dokter
+    int jumlahDokter = HitungJumlahDokter(daftarDokter); 
+    
+    // 4. Hitung penjadwalan awal
     int jumlahPelanggaran = 0;
-
     LoopTanggal(ArrayJadwal, daftarDokter, jumlahDokter, &jumlahPelanggaran);
 
-    //antarmuka
-    antarmuka(ArrayJadwal, jumlahPelanggaran);
+    // 5. Jalankan antarmuka (user bisa menambah/menghapus dokter)
+    antarmuka(ArrayJadwal, &daftarDokter, jumlahPelanggaran);
 
-    //tulis hasil jadwal ke CSV
+    // 6. Simpan daftar dokter terbaru ke CSV
+    ExportDokterToCSV(daftarDokter, "data/contoh_daftar_dokter.csv");
+
+    // 7. Hitung ulang jumlah dokter
+    jumlahDokter = HitungJumlahDokter(daftarDokter);
+
+    // 8. Inisialisasi ulang jadwal (karena daftar dokter berubah)
+    InisialisasiArrayJadwal(ArrayJadwal);
+
+    // 9. Jadwalkan ulang dengan data terbaru
+    jumlahPelanggaran = 0;
+    LoopTanggal(ArrayJadwal, daftarDokter, jumlahDokter, &jumlahPelanggaran);
+
+    // 10. Simpan jadwal ke file
     ExportJadwalKeCSV("data/jadwal_dokter.csv", ArrayJadwal);
+
+    // 11. Free memory
     FreeListDokter(daftarDokter);
-    
+
     return 0;
 }

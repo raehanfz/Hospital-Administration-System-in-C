@@ -68,4 +68,10 @@ int HitungJumlahDokter(NodeDokter* head);
 void FreeListDokter(NodeDokter* head);
 
 void ExportJadwalKeCSV(const char* filename, Jadwal arrayJadwal[30]);
+
+void AddDokterToDaftarDokter(NodeDokter** daftarDokter, char nama[MAX_NAME_LENGTH], unsigned short int maksShift, bool pagi, bool siang, bool malam);
+
+void DeleteDokter(NodeDokter** daftarDokter, char nama[MAX_NAME_LENGTH]);
+
+void ExportDokterToCSV(NodeDokter* daftarDokter, const char* filename);
 #endif
