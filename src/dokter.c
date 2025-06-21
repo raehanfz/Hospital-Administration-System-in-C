@@ -39,23 +39,43 @@ NodeDokter* BacaDaftarDokterDariFile(const char* filename) {
         unsigned short int maksShift;
         bool pagi, siang, malam;
 
+        // Ambil token satu per satu dan cek validitasnya
         token = strtok(buffer, ",");
-        strncpy(nama, token, MAX_NAME_LENGTH - 1); nama[MAX_NAME_LENGTH - 1] = '\0';
-        maksShift = (unsigned short int)atoi(strtok(NULL, ","));
-        pagi = strcmp(strtok(NULL, ","), "true") == 0;
-        siang = strcmp(strtok(NULL, ","), "true") == 0;
-        malam = strcmp(strtok(NULL, ",\n"), "true") == 0;
-        token[strcspn(token, "\r\n")] = '\0';
+        if (!token) continue;
+        strncpy(nama, token, MAX_NAME_LENGTH - 1);
+        nama[MAX_NAME_LENGTH - 1] = '\0';
+
+        token = strtok(NULL, ",");
+        if (!token) continue;
+        maksShift = (unsigned short int)atoi(token);
+
+        token = strtok(NULL, ",");
+        if (!token) continue;
+        pagi = strcmp(token, "true") == 0;
+
+        token = strtok(NULL, ",");
+        if (!token) continue;
+        siang = strcmp(token, "true") == 0;
+
+        token = strtok(NULL, ",\n\r");
+        if (!token) continue;
+        malam = strcmp(token, "true") == 0;
 
         NodeDokter* newNode = CreateNodeDokter(nama, maksShift, pagi, siang, malam);
-        if (head == NULL) head = newNode;
-        else current->next = newNode;
+        if (!newNode) continue; // antisipasi jika gagal malloc
+
+        if (head == NULL) {
+            head = newNode;
+        } else {
+            current->next = newNode;
+        }
         current = newNode;
     }
 
     fclose(fileDokter);
     return head;
 }
+
 
 void PrioritizeDokterList(NodeDokter** head){
     NodeDokter *oneShiftHead = NULL, *oneShiftTail = NULL;

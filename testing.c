@@ -10,7 +10,7 @@ int main(void) {
 
     // Optimalisasi urutan linked-list
     PrioritizeDokterList(&daftarDokter);
-    
+
     // Inisialisasi array jadwal kosong
     Jadwal ArrayJadwal[30];
     InisialisasiArrayJadwal(ArrayJadwal); 
