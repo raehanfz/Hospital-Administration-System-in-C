@@ -20,28 +20,14 @@ int main(void) {
     
     // Hitung penjadwalan awal
     LoopTanggal(ArrayJadwal, daftarDokter, jumlahDokter);
+
+    // Hitung pelanggaran awal
     int jumlahPelanggaran = HitungTotalPelanggaran(daftarDokter);
-    // Jalankan antarmuka (user bisa menambah/menghapus dokter)
+
+    // Jalankan antarmuka (yang kini sudah otomatis handle semua perubahan & CSV update)
     antarmuka(ArrayJadwal, &daftarDokter, jumlahPelanggaran);
-
-    // Simpan daftar dokter terbaru ke CSV
-    ExportDokterToCSV(daftarDokter, "data/contoh_daftar_dokter.csv");
-
-    // Hitung ulang jumlah dokter
-    jumlahDokter = HitungJumlahDokter(daftarDokter);
-
-    // Inisialisasi ulang jadwal (karena daftar dokter berubah)
-    InisialisasiArrayJadwal(ArrayJadwal);
-
-    // Jadwalkan ulang dengan data terbaru
-    jumlahPelanggaran = 0;
-    LoopTanggal(ArrayJadwal, daftarDokter, jumlahDokter);
-
-    // Simpan jadwal ke file
-    ExportJadwalKeCSV("data/jadwal_dokter.csv", ArrayJadwal);
 
     // Free memory
     FreeListDokter(daftarDokter);
-
     return 0;
 }

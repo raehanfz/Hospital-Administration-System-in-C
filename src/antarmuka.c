@@ -52,9 +52,10 @@ void exitmessege(){
     printf("TUBES PMP SELESAIIII (YIPPIEEE)");
 }
 
-void antarmuka(Jadwal arrayJadwal[30], NodeDokter** head,int jumlahPelanggaran){
+void antarmuka(Jadwal arrayJadwal[30], NodeDokter** head, int jumlahPelanggaran){
     bool exit = false;
     int menu;
+
     while (!exit){
         printf("\n==MANAJEMEN RUMAH SAKIT ALEXANDER KNALPOT==\n");
         printf("pilih menu: (masukkan angka saja)\n");
@@ -85,61 +86,78 @@ void antarmuka(Jadwal arrayJadwal[30], NodeDokter** head,int jumlahPelanggaran){
                 printf("input tidak valid");
             }
         }
-        else if (menu == 2) {
-            char nama[MAX_NAME_LENGTH];
-            unsigned short int MaksShift1Minggu;
-            bool shiftPagi, shiftSiang, shiftMalam;
 
-            printf("\n==Tambah Dokter==\n");
+        else if (menu == 2 || menu == 3){
+            if (menu == 2) {
+                char nama[MAX_NAME_LENGTH];
+                unsigned short int MaksShift1Minggu;
+                bool shiftPagi, shiftSiang, shiftMalam;
 
-            getchar(); 
-            printf("Nama Dokter: ");
-            fgets(nama, MAX_NAME_LENGTH, stdin);
-            nama[strcspn(nama, "\n")] = '\0';  // Hapus newline
+                printf("\n==Tambah Dokter==\n");
+                getchar(); 
+                printf("Nama Dokter: ");
+                fgets(nama, MAX_NAME_LENGTH, stdin);
+                nama[strcspn(nama, "\n")] = '\0';
 
-            printf("Maksimal shift dokter per minggu: ");
-            scanf("%hu", &MaksShift1Minggu);
+                printf("Maksimal shift dokter per minggu: ");
+                scanf("%hu", &MaksShift1Minggu);
 
-            int input;
+                int input;
+                printf("Preferensi shift pagi (1 untuk iya, 0 untuk tidak): ");
+                scanf("%d", &input); shiftPagi = input;
 
-            printf("Preferensi shift pagi (1 untuk iya, 0 untuk tidak): ");
-            scanf("%d", &input);
-            shiftPagi = input;
+                printf("Preferensi shift siang (1 untuk iya, 0 untuk tidak): ");
+                scanf("%d", &input); shiftSiang = input;
 
-            printf("Preferensi shift siang (1 untuk iya, 0 untuk tidak): ");
-            scanf("%d", &input);
-            shiftSiang = input;
+                printf("Preferensi shift malam (1 untuk iya, 0 untuk tidak): ");
+                scanf("%d", &input); shiftMalam = input;
 
-            printf("Preferensi shift malam (1 untuk iya, 0 untuk tidak): ");
-            scanf("%d", &input);
-            shiftMalam = input;
+                AddDokterToDaftarDokter(head, nama, MaksShift1Minggu, shiftPagi, shiftSiang, shiftMalam);
+            }
 
-            AddDokterToDaftarDokter(head, nama, MaksShift1Minggu, shiftPagi, shiftSiang, shiftMalam);
+            else if (menu == 3){
+                char nama[MAX_NAME_LENGTH];
+                printf("\n==Hapus Dokter==\n");
+                printf("Nama Dokter: ");
+                getchar();
+                fgets(nama, MAX_NAME_LENGTH, stdin);
+                nama[strcspn(nama, "\n")] = '\0';
+                DeleteDokter(head, nama);
+            }
+
+            // === Real-time Recalculate ===
+            int jumlahDokter = HitungJumlahDokter(*head);
+            InisialisasiArrayJadwal(arrayJadwal);
+            
+            // Reset pelanggaran per dokter ke nol
+            NodeDokter* curr = *head;
+            while (curr != NULL){
+                curr->pelanggaran = 0;
+                curr = curr->next;
+            }
+
+            // Jalankan ulang loop penjadwalan
+            LoopTanggal(arrayJadwal, *head, jumlahDokter);
+
+            // Update CSV
+            ExportDokterToCSV(*head, "data/contoh_daftar_dokter.csv");
+            ExportJadwalKeCSV("data/jadwal_dokter.csv", arrayJadwal);
         }
 
-        else if (menu == 3){
-            char nama[MAX_NAME_LENGTH];
-
-            printf("\n==Hapus Dokter==\n");
-            printf("nama Dokter: ");
-            getchar(); // flush newline after scanf
-            fgets(nama, MAX_NAME_LENGTH, stdin);
-            nama[strcspn(nama, "\n")] = '\0';
-
-            DeleteDokter(head, nama);
-        }
         else if (menu == 4){
-            unsigned short int pelanggaran;
+            unsigned short int pelanggaranMenu;
             printf("\n==Pelanggaran==\n");
             printf("1. Total pelanggaran\n2. Pelanggaran setiap dokter\n");
             printf("pilih menu pelanggaran (pilih angka saja): ");
-            scanf("%hu", &pelanggaran);
-            if (pelanggaran == 2){
+            scanf("%hu", &pelanggaranMenu);
+            if (pelanggaranMenu == 2){
                 PrintPelanggaranPerDokter(*head);
             } else {
-                printf("total pelanggaran preferensi dokter: %d", jumlahPelanggaran);
+                printf("total pelanggaran preferensi dokter: %d\n", jumlahPelanggaran);
             }
-        }else if (menu == 5){
+        }
+
+        else if (menu == 5){
             exitmessege();
             exit = true;
         }
