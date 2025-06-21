@@ -1,14 +1,13 @@
 Nama,MaksShiftPerMinggu,ShiftPagi,ShiftSiang,ShiftMalam
 Dr. Halah,4,true,false,false
 Dr. Bruce lee,3,false,false,true
-Dr Ridwan Kamil,8,true,true,true
 Dr. Xiao Bao Pribumi,5,false,false,true
 Dr. Kenneth,4,true,true,true
 Dr. Gibran Blusukan,4,true,true,true
 Dr. Andi Spionkanan,2,true,false,false
 Dr. Budi Knalpot,3,false,true,false
 Dr. Nabila La Lost You,5,true,true,false
-Dr. Dedi Mulyadi,9,false,false,false
+Dr. Dedi Mulyadi,9,true,true,true
 Dr. Kepin De Bruin,5,true,false,false
 Dr. Josh Jempolkaki,4,false,true,false
 Dr. Gina Goona,3,true,true,false
