@@ -63,7 +63,7 @@ void antarmuka(Jadwal arrayJadwal[30], NodeDokter** head, int jumlahPelanggaran)
 
     while (!exit) {
         printf("\n╔════════════════════════════════════════════╗\n");
-        printf("║   MANAJEMEN RUMAH SAKIT ALEXANDER KNALPOT ║\n");
+        printf("║   MANAJEMEN RUMAH SAKIT ALEXANDER KNALPOT  ║\n");
         printf("╚════════════════════════════════════════════╝\n");
         printf("Pilih menu (masukkan angka):\n");
         printf("  1. Lihat Jadwal Dokter\n");
