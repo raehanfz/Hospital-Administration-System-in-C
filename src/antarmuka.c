@@ -35,24 +35,79 @@ void printJadwalHarian(Jadwal hari, int tanggal) {
 }
 
 
-void printJadwalMingguan(Jadwal ArrayJadwal[30], int minggu){
-    if (minggu == 5){
-        printJadwalHarian(ArrayJadwal[28], 29);
-        printJadwalHarian(ArrayJadwal[29], 30);
+void printJadwalMingguan(Jadwal ArrayJadwal[30], int minggu) {
+    printf("\n╔══════════════════════════════════════════════════════════════════════════════════════╗\n");
+    printf("║                                JADWAL MINGGU KE-%d                                   ║\n", minggu);
+    printf("╚══════════════════════════════════════════════════════════════════════════════════════╝\n");
+
+    if (minggu == 5) {
+        minggu = 4; // week 5 is just 2 days
     } else {
         minggu -= 1;
-        for (int i = 0; i < 7; i++){
-            printJadwalHarian(ArrayJadwal[i+7*minggu], 1+i+7*minggu);
+    }
+
+    const int hariMax = (minggu == 4) ? 2 : 7;
+
+    for (int i = 0; i < hariMax; i++) {
+        int idx = i + 7 * minggu;
+
+        printf("╔══════════════════════════════════════════════════════════════════════════════════════╗\n");
+        printf("║ Tanggal: %2d                                                                         ║\n", idx + 1);
+        printf("╠══════════════════════════════════════════════════════════════════════════════════════╣\n");
+
+        // Print Pagi
+        printf("║ Shift Pagi                                                                           ║\n");
+        DokterPadaShift* pagi = ArrayJadwal[idx].pagi.head;
+        if (!pagi) {
+            printf("║   (Kosong)                                                                           ║\n");
+        } else {
+            while (pagi) {
+                printf("║   - %-80s║\n", pagi->nama);
+                pagi = pagi->next;
+            }
         }
+
+        // Print Siang
+        printf("╠══════════════════════════════════════════════════════════════════════════════════════╣\n");
+        printf("║ Shift Siang                                                                          ║\n");
+        DokterPadaShift* siang = ArrayJadwal[idx].siang.head;
+        if (!siang) {
+            printf("║   (Kosong)                                                                           ║\n");
+        } else {
+            while (siang) {
+                printf("║   - %-80s║\n", siang->nama);
+                siang = siang->next;
+            }
+        }
+
+        // Print Malam
+        printf("╠══════════════════════════════════════════════════════════════════════════════════════╣\n");
+        printf("║ Shift Malam                                                                          ║\n");
+        DokterPadaShift* malam = ArrayJadwal[idx].malam.head;
+        if (!malam) {
+            printf("║   (Kosong)                                                                           ║\n");
+        } else {
+            while (malam) {
+                printf("║   - %-80s║\n", malam->nama);
+                malam = malam->next;
+            }
+        }
+
+        printf("╚══════════════════════════════════════════════════════════════════════════════════════╝\n");
     }
-    
 }
-void printJadwal(Jadwal ArrayJadwal[30]){
-    for (int i = 0; i < 30; i++){
-        printJadwalHarian(ArrayJadwal[i], i+1);
+
+void printJadwal(Jadwal ArrayJadwal[30]) {
+    printf("\n╔══════════════════════════════════════════════════════════════════════════════════════╗\n");
+    printf("║                                JADWAL BULANAN                                        ║\n");
+    printf("╚══════════════════════════════════════════════════════════════════════════════════════╝\n");
+
+    for (int minggu = 1; minggu <= 5; minggu++) {
+        printJadwalMingguan(ArrayJadwal, minggu);
     }
-    
 }
+
+
 void exitmessege(){
     printf("TUBES PMP SELESAIIII (YIPPIEEE)");
 }
@@ -166,7 +221,6 @@ void antarmuka(Jadwal arrayJadwal[30], NodeDokter** head, int jumlahPelanggaran)
                 printf("  1. Total pelanggaran\n");
                 printf("  2. Per dokter\n");
                 printf(">> ");
-                scanf("%hu", &pelanggaranMenu);
 
                 if (scanf("%hu", &pelanggaranMenu)==1){
                     if(pelanggaranMenu == 2) {
