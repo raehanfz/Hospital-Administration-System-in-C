@@ -24,6 +24,9 @@ int main(void) {
     // Hitung pelanggaran awal
     int jumlahPelanggaran = HitungTotalPelanggaran(daftarDokter);
 
+    ExportDokterToCSV(daftarDokter, "data/contoh_daftar_dokter.csv");
+    ExportJadwalKeCSV("data/jadwal_dokter.csv", ArrayJadwal);
+
     // Jalankan antarmuka (yang kini sudah otomatis handle semua perubahan & CSV update)
     antarmuka(ArrayJadwal, &daftarDokter, jumlahPelanggaran);
 
