@@ -3,7 +3,7 @@
 #include <string.h>
 #include "jadwal.h"
 
-void LoopTanggal(Jadwal arrayJadwal[30], NodeDokter* head, int jumlahDokter) {
+void LoopTanggal(Jadwal arrayJadwal[30], NodeDokter* head, int jumlahDokter){
     int week = 0;
     MaksShift arrayMaksShift[jumlahDokter];
 
