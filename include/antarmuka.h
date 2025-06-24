@@ -2,6 +2,7 @@
 #define ANTARMUKA_H
 #include "jadwal.h"
 
+
 void printJadwalHarian(Jadwal hari, int tanggal);
 void printJadwalMingguan(Jadwal ArrayJadwal[30], int minggu);
 void printJadwal(Jadwal ArrayJadwal[30]);
