@@ -1,6 +1,4 @@
 Nama,MaksShiftPerMinggu,ShiftPagi,ShiftSiang,ShiftMalam
-Dr. Octopus,3,false,false,true
-Dr. Halah,4,true,false,false
 Dr. Bruce lee,3,false,false,true
 Dr. Andi Spionkanan,2,true,false,false
 Dr. Budi Knalpot,3,false,true,false
@@ -12,8 +10,7 @@ Dr. Kayla Behel Kelapkelip,3,false,true,false
 Dr. Adit Tolongindit,3,true,false,false
 Dr. Hasan Hasyim Halahsiaboi,4,false,true,false
 Dr. Max Verstappen Duh Duh,6,false,false,true
+Dr. Tirta,5,true,false,true
 Dr. Nabila La Lost You,5,true,true,false
 Dr. Gina Goona,3,true,true,false
 Dr. Kenneth,4,true,true,true
-Dr. Gibran Blusukan,4,true,true,true
-Dr. Dedi Mulyadi,9,true,true,true
