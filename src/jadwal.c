@@ -5,8 +5,6 @@
 #include "dokter.h"
 #include "jadwal.h"
 
-
-//fungsi inisialisasi 30 hari dalam 1 bulan
 void InisialisasiArrayJadwal(Jadwal arrayJadwal[30]) {
     for (int i = 0; i < 30; i++) {
         arrayJadwal[i].tanggal = i + 1;
@@ -24,7 +22,7 @@ void InisialisasiArrayJadwal(Jadwal arrayJadwal[30]) {
         arrayJadwal[i].malam.kebutuhanTerpenuhi = false;
     }
 }
-//inisialisasi array jadwal kosong
+
 DokterPadaShift* CreateNodeDokterDiShift(char nama[MAX_NAME_LENGTH]){
     DokterPadaShift* temp = (DokterPadaShift*)malloc(sizeof(DokterPadaShift));
     strcpy(temp->nama, nama);
@@ -32,12 +30,6 @@ DokterPadaShift* CreateNodeDokterDiShift(char nama[MAX_NAME_LENGTH]){
     return temp;
 }
 
-//fungsi ini akan mengiterasi linked-list dokter pada tanggal tertentu.
-//dicek apakah beberapa kondisi terpenuhi: 
-//  Makshift dokter belum nol (artinya dalam seminggu belum di batas shift dokternya)
-//  Kebutuhan dokter pada shift tersebut belum terpenuhi
-//  Preferensi shift dokter sesuai dengan shift yang lagi butuh dokter
-//Jika semua kondisi terpenuh maka dokternya akan di-assign di shift itu
 void CekMaksShiftKebutuhanPreferensiLaluAssign(NodeDokter* head, Jadwal* jadwal){
     bool shift_in_day_full = false;
     DokterPadaShift* temp;

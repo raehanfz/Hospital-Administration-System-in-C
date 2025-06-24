@@ -6,7 +6,6 @@
 
 #define FILE_NEWLINE_BUFFER 100
 
-//fungsi untuk membuat node mengenai informasi dokter
 NodeDokter* CreateNodeDokter(char nama[MAX_NAME_LENGTH], unsigned short int maksShift, bool pagi, bool siang, bool malam) {
     NodeDokter* temp = (NodeDokter*)malloc(sizeof(NodeDokter));
     strncpy(temp->nama, nama, MAX_NAME_LENGTH - 1);
@@ -19,7 +18,6 @@ NodeDokter* CreateNodeDokter(char nama[MAX_NAME_LENGTH], unsigned short int maks
     temp->next = NULL;
     return temp;
 }
- //fungis membaca file csv berisi data dokter
 NodeDokter* BacaDaftarDokterDariFile(const char* filename) {
     FILE* fileDokter = fopen(filename, "r");
     if (!fileDokter) {
@@ -124,7 +122,6 @@ int HitungTotalPelanggaran(NodeDokter* head){
     return total;
 }
 
-//fungsi debug (opsinonal, buat print aja)
 void PrintListDokter(NodeDokter* head) {
     while (head) {
         printf("Nama: %s, Maks: %d, Pagi: %d, Siang: %d, Malam: %d\n",

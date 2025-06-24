@@ -41,7 +41,7 @@ void printJadwalMingguan(Jadwal ArrayJadwal[30], int minggu) {
     printf("╚══════════════════════════════════════════════════════════════════════════════════════╝\n");
 
     if (minggu == 5) {
-        minggu = 4; // week 5 is just 2 days
+        minggu = 4;
     } else {
         minggu -= 1;
     }
