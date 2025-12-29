@@ -6,7 +6,7 @@ Program ini memungkinkan pihak rumah sakit untuk mengelola data dokter dan mengh
 
 ---
 
-## 📁 Struktur Proyek
+## Struktur Proyek
 Tubes-PMP-Kelompok-9-2025/
 ├── data/ # File CSV (input & output)
 │ ├── contoh_daftar_dokter.csv # Contoh input daftar dokter
@@ -25,7 +25,7 @@ Tubes-PMP-Kelompok-9-2025/
 ├── Makefile # File konfigurasi build
 └── README.md # Dokumentasi proyek ini
 
-## 🚀 Fitur
+## Fitur
 
 - Membaca data dokter dari file CSV (`data/contoh_daftar_dokter.csv`)
 - Menyusun jadwal shift 30 hari berdasarkan:
@@ -37,14 +37,14 @@ Tubes-PMP-Kelompok-9-2025/
 
 ---
 
-## 🛠 Instalasi & Kompilasi
+## Instalasi & Kompilasi
 
-### 🔧 Prasyarat
+### Prasyarat
 
 - Compiler GCC
 - `make` (tersedia di Linux/Mac atau MinGW untuk Windows)
 
-### 🔨 Kompilasi
+### Kompilasi
 
 Untuk membangun program:
 
